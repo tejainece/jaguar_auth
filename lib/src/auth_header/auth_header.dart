@@ -53,7 +53,8 @@ String addAuthHeaderItemToAuthHeader(String header, AuthHeaderItem newItem,
     {bool omitIfAuthSchemeAlreadyInHeader: true}) {
   final items = authHeaderToAuthItems(header);
 
-  if (omitIfAuthSchemeAlreadyInHeader && items.containsKey(newItem.authScheme)) {
+  if (omitIfAuthSchemeAlreadyInHeader &&
+      items.containsKey(newItem.authScheme)) {
     return header;
   } else {
     items[newItem.authScheme] = newItem;
