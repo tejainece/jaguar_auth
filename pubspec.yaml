@@ -10,6 +10,7 @@ environment:
   sdk: '>=1.0.0 <2.0.0'
 
 dependencies:
+  auth_header: '>=0.0.1'
   jaguar:
     path: ../jaguar
   matcher: "^0.12.0"
