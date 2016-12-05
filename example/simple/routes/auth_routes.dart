@@ -24,8 +24,8 @@ const WhiteListPasswordChecker kModelManager =
 @RouteGroup()
 class AuthManager extends _$JaguarAuthManager {
   @Post(path: '/login')
-  @SessionInterceptor(params: const <Symbol, MakeParam>{
-    #sessionManager: const MakeParamFromMethod()
+  @SessionInterceptor(makeParams: const <Symbol, MakeParam>{
+    #sessionManager: const MakeParamFromMethod(#sessionManager)
   })
   @BasicAuth(modelManager: kModelManager)
   void login() {}

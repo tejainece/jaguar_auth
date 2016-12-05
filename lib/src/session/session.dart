@@ -27,10 +27,8 @@ class SessionInterceptor extends Interceptor {
   final SessionManager sessionManager;
 
   const SessionInterceptor(
-      {this.sessionManager,
-      String id,
-      Map<Symbol, MakeParam> params})
-      : super(id: id, params: params);
+      {this.sessionManager, String id, Map<Symbol, MakeParam> makeParams})
+      : super(id: id, makeParams: makeParams);
 
   Future<SessionManager> pre(HttpRequest req) async {
     await sessionManager.parseRequest(req);

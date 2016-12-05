@@ -8,8 +8,8 @@ class UsernamePasswordJsonAuth extends Interceptor {
   final AuthModelManager modelManager;
 
   const UsernamePasswordJsonAuth(
-      {this.modelManager, String id, Map<Symbol, MakeParam> params})
-      : super(id: id, params: params);
+      {this.modelManager, String id, Map<Symbol, MakeParam> makeParams})
+      : super(id: id, makeParams: makeParams);
 
   @DecodeJsonMap()
   @Input(SessionInterceptor)

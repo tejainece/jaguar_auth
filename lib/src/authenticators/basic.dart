@@ -4,8 +4,9 @@ class BasicAuth extends Interceptor {
   final AuthModelManager modelManager;
 
   @Input(SessionInterceptor)
-  const BasicAuth({this.modelManager, String id, Map<Symbol, MakeParam> params})
-      : super(id: id, params: params);
+  const BasicAuth(
+      {this.modelManager, String id, Map<Symbol, MakeParam> makeParams})
+      : super(id: id, makeParams: makeParams);
 
   @InputHeader(HttpHeaders.AUTHORIZATION)
   @Input(SessionInterceptor)

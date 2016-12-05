@@ -8,8 +8,8 @@ class UsernamePasswordAuth extends Interceptor {
   final AuthModelManager modelManager;
 
   const UsernamePasswordAuth(
-      {this.modelManager, String id, Map<Symbol, MakeParam> params})
-      : super(id: id, params: params);
+      {this.modelManager, String id, Map<Symbol, MakeParam> makeParams})
+      : super(id: id, makeParams: makeParams);
 
   @DecodeUrlEncodedForm()
   @Input(SessionInterceptor)

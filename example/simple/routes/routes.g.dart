@@ -27,8 +27,10 @@ abstract class _$JaguarAuthManager implements RequestHandler {
     if (match) {
       Response rRouteResponse = new Response(null);
       SessionInterceptor iSessionInterceptor = new SessionInterceptor(
-        params: const {#sessionManager: CookieSessionManager},
-        sessionManager: new CookieSessionManager(),
+        makeParams: const <Symbol, MakeParam>{
+          #sessionManager: const MakeParamFromMethod(#sessionManager)
+        },
+        sessionManager: sessionManager(),
       );
       SessionManager rSessionInterceptor = await iSessionInterceptor.pre(
         request,

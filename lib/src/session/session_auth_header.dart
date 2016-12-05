@@ -43,7 +43,8 @@ class JwtAuthHeaderSessionManager implements SessionManager {
   Future<Response> updateResponse(HttpRequest request, Response resp) async {
     JwtHelper helper = new JwtHelper(info);
 
-    final signatureContext = new JwaSymmetricKeySignatureContext(info.tokenSecret);
+    final signatureContext =
+        new JwaSymmetricKeySignatureContext(info.tokenSecret);
     final jwt = new JsonWebToken.jws(claimSet, signatureContext);
 
     return resp;
