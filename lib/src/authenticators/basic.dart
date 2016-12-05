@@ -1,15 +1,15 @@
 part of jaguar_auth.authenticators;
 
-const kBasicAuthScheme = 'Basic';
-
 class BasicAuth extends Interceptor {
-  final PasswordChecker checker;
+  final AuthModelManager modelManager;
 
-  const BasicAuth({this.checker, String id, Map<Symbol, Type> params})
+  @Input(SessionInterceptor)
+  const BasicAuth({this.modelManager, String id, Map<Symbol, MakeParam> params})
       : super(id: id, params: params);
 
   @InputHeader(HttpHeaders.AUTHORIZATION)
-  Future<UserModel> pre(String header) async {
+  @Input(SessionInterceptor)
+  Future<UserModel> pre(String header, SessionManager sessionManager) async {
     final basic =
         new AuthHeaderItem.fromHeaderBySchema(header, kBasicAuthScheme);
 
@@ -27,11 +27,13 @@ class BasicAuth extends Interceptor {
     final String username = usernamePassword[0];
     final String password = usernamePassword[1];
 
-    final subject = await checker.authenticate(username, password);
+    final subject = await modelManager.authenticate(username, password);
 
     if (subject == null) {
       throw new UnAuthorizedError();
     }
+
+    //TODO request session manager to create session?
 
     return subject;
   }
@@ -44,4 +46,6 @@ class BasicAuth extends Interceptor {
       return '';
     }
   }
+
+  static const kBasicAuthScheme = 'Basic';
 }

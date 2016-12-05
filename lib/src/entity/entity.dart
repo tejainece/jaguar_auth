@@ -1,21 +1,23 @@
 library jaguar_auth.authenticator;
 
 import 'dart:async';
-import 'package:jaguar_auth/src/hashers/hasher.dart';
+import 'package:jaguar_auth/src/hasher/hasher.dart';
 
 abstract class UserModel {
-  String get username;
+  String get authIndex;
 
-  String get password;
+  String get authKeyword;
 }
 
 /// Checks password for given username and returns the user if passwords match
-abstract class PasswordChecker {
-  Future<UserModel> authenticate(String username, String password);
+abstract class AuthModelManager {
+  Future<UserModel> fetchModel(String index);
+
+  Future<UserModel> authenticate(String index, String keyword);
 }
 
 /// Checks password for given username and returns the user if passwords match
-class WhiteListPasswordChecker implements PasswordChecker {
+class WhiteListPasswordChecker implements AuthModelManager {
   final Map<String, UserModel> models;
 
   final Hasher hasher;
@@ -31,10 +33,18 @@ class WhiteListPasswordChecker implements PasswordChecker {
 
     UserModel model = models[username];
 
-    if (!hasher.verify(password, model.password)) {
+    if (!hasher.verify(password, model.authKeyword)) {
       return null;
     }
 
     return model;
+  }
+
+  Future<UserModel> fetchModel(String index) async {
+    if (!models.containsKey(index)) {
+      return null;
+    }
+
+    return models[index];
   }
 }

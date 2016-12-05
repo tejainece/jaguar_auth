@@ -10,10 +10,12 @@ environment:
   sdk: '>=1.0.0 <2.0.0'
 
 dependencies:
-  auth_header: '>=0.0.1'
+  auth_header: '>=0.0.2'
   jaguar:
     path: ../jaguar
   matcher: "^0.12.0"
+  jaguar_jwt_auth:
+    path: ../jaguar_jwt_auth
 
 dev_dependencies:
   test: '>=0.12.0 <0.13.0'

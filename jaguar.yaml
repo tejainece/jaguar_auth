@@ -1,0 +1,3 @@
+apis:
+  - example/simple/simple.dart
+  - example/simple/routes/routes.dart

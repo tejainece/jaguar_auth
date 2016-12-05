@@ -6,6 +6,8 @@
 /// More dartdocs go here.
 library jaguar_auth;
 
-export 'src/jaguar_auth_base.dart';
-
-// TODO: Export any libraries intended for clients of this package.
+export 'package:jaguar_auth/src/authenticators/authenticators.dart';
+export 'package:jaguar_auth/src/authoriser/authoriser.dart';
+export 'package:jaguar_auth/src/entity/entity.dart';
+export 'package:jaguar_auth/src/hasher/hasher.dart';
+export 'package:jaguar_auth/src/session/session.dart';

@@ -5,22 +5,26 @@ part of jaguar_auth.authenticators;
 /// username and password form fields must be called `username` and `password`
 /// respectively.
 class UsernamePasswordAuth extends Interceptor {
-  final PasswordChecker checker;
+  final AuthModelManager modelManager;
 
   const UsernamePasswordAuth(
-      {this.checker, String id, Map<Symbol, Type> params})
+      {this.modelManager, String id, Map<Symbol, MakeParam> params})
       : super(id: id, params: params);
 
   @DecodeUrlEncodedForm()
-  Future<UserModel> pre(Map<String, String> form) async {
+  @Input(SessionInterceptor)
+  Future<UserModel> pre(
+      Map<String, String> form, SessionManager sessionManager) async {
     final String username = form['username'];
     final String password = form['password'];
 
-    final subject = await checker.authenticate(username, password);
+    final subject = await modelManager.authenticate(username, password);
 
     if (subject == null) {
       throw new UnAuthorizedError();
     }
+
+    //TODO request session manager to create session?
 
     return subject;
   }

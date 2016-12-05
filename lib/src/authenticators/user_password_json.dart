@@ -5,30 +5,34 @@ part of jaguar_auth.authenticators;
 /// username and password fields must be called `username` and `password`
 /// respectively.
 class UsernamePasswordJsonAuth extends Interceptor {
-  final PasswordChecker checker;
+  final AuthModelManager modelManager;
 
   const UsernamePasswordJsonAuth(
-      {this.checker, String id, Map<Symbol, Type> params})
+      {this.modelManager, String id, Map<Symbol, MakeParam> params})
       : super(id: id, params: params);
 
   @DecodeJsonMap()
-  Future<UserModel> pre(Map<String, dynamic> jsonBody) async {
+  @Input(SessionInterceptor)
+  Future<UserModel> pre(
+      Map<String, dynamic> jsonBody, SessionManager sessionManager) async {
     final String username = jsonBody['username'];
     final String password = jsonBody['password'];
 
-    if(username is! String) {
+    if (username is! String) {
       throw new UnAuthorizedError();
     }
 
-    if(password is! String) {
+    if (password is! String) {
       throw new UnAuthorizedError();
     }
 
-    final subject = await checker.authenticate(username, password);
+    final subject = await modelManager.authenticate(username, password);
 
     if (subject == null) {
       throw new UnAuthorizedError();
     }
+
+    //TODO request session manager to create session?
 
     return subject;
   }
