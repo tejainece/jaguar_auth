@@ -45,7 +45,7 @@ class Book {
     }
 
     if (map['authors'] is List) {
-      List value = map['authors'];
+      List<String> value = map['authors'] as List<String>;
 
       if (value.every((el) => el is String)) {
         authors = value;
