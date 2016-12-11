@@ -3,13 +3,15 @@ part of jaguar_auth.authenticators;
 class WrapBasicAuth implements RouteWrapper<BasicAuth> {
   final AuthModelManager modelManager;
 
+  final String sessionIdKey;
+
   final String id;
 
   final Map<Symbol, MakeParam> makeParams;
 
-  const WrapBasicAuth({this.modelManager, this.id, this.makeParams});
+  const WrapBasicAuth({this.sessionIdKey: 'id', this.modelManager, this.id, this.makeParams});
 
-  BasicAuth createInterceptor() => new BasicAuth(this.modelManager);
+  BasicAuth createInterceptor() => new BasicAuth(this.modelManager, sessionIdKey: this.sessionIdKey);
 }
 
 class BasicAuth extends Interceptor {

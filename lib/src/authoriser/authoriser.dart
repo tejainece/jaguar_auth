@@ -9,13 +9,15 @@ import 'package:jaguar_session/jaguar_session.dart';
 class WrapUserAuthoriser implements RouteWrapper<UserAuthoriser> {
   final AuthModelManager modelManager;
 
+  final String sessionIdKey;
+
   final String id;
 
   final Map<Symbol, MakeParam> makeParams;
 
-  const WrapUserAuthoriser({this.modelManager, this.id, this.makeParams});
+  const WrapUserAuthoriser({this.sessionIdKey: 'id', this.modelManager, this.id, this.makeParams});
 
-  UserAuthoriser createInterceptor() => new UserAuthoriser(modelManager);
+  UserAuthoriser createInterceptor() => new UserAuthoriser(modelManager, sessionIdKey: sessionIdKey);
 }
 
 class UserAuthoriser extends Interceptor {
@@ -27,6 +29,8 @@ class UserAuthoriser extends Interceptor {
 
   @Input(SessionInterceptor)
   Future<UserModel> pre(HttpRequest req, SessionManager sessionManager) async {
+    await sessionManager.validate();
+
     String id = sessionManager.getInValue(sessionIdKey);
     if (id is! String || id.isEmpty) {
       throw new UnAuthorizedError();
