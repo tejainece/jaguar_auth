@@ -6,6 +6,7 @@ import 'dart:convert';
 
 import 'package:jaguar/jaguar.dart';
 import 'package:jaguar_auth/jaguar_auth.dart';
+import 'package:jaguar_session/jaguar_session.dart';
 
 import '../../../models/book/book.dart';
 

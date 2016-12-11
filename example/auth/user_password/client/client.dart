@@ -3,7 +3,6 @@ library example.basic_auth.client;
 import 'dart:async';
 import 'dart:io';
 import 'dart:convert';
-import 'package:auth_header/auth_header.dart';
 
 final HttpClient _client = new HttpClient();
 final Map<String, Cookie> _cookies = {};

@@ -7,7 +7,7 @@ import 'package:jaguar/jaguar.dart';
 import 'package:jaguar/interceptors.dart';
 import 'package:jaguar_auth/src/entity/entity.dart';
 import 'package:auth_header/auth_header.dart';
-import 'package:jaguar_auth/src/session/session.dart';
+import 'package:jaguar_session/jaguar_session.dart';
 
 part 'basic.dart';
 part 'user_password.dart';

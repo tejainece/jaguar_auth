@@ -4,7 +4,7 @@ import 'dart:io';
 import 'dart:async';
 import 'package:jaguar/jaguar.dart';
 import 'package:jaguar_auth/src/entity/entity.dart';
-import 'package:jaguar_auth/src/session/session.dart';
+import 'package:jaguar_session/jaguar_session.dart';
 
 class WrapUserAuthoriser implements RouteWrapper<UserAuthoriser> {
   final AuthModelManager modelManager;

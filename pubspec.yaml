@@ -16,6 +16,8 @@ dependencies:
   matcher: "^0.12.0"
   jaguar_jwt_auth:
     path: ../jaguar_jwt_auth
+  jaguar_session:
+    path: ../jaguar_session
 
 dev_dependencies:
   test: '>=0.12.0 <0.13.0'

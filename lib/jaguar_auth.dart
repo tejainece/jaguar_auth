@@ -10,4 +10,3 @@ export 'package:jaguar_auth/src/authenticators/authenticators.dart';
 export 'package:jaguar_auth/src/authoriser/authoriser.dart';
 export 'package:jaguar_auth/src/entity/entity.dart';
 export 'package:jaguar_auth/src/hasher/hasher.dart';
-export 'package:jaguar_auth/src/session/session.dart';
