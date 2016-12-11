@@ -4,14 +4,18 @@ import 'dart:async';
 import 'package:jaguar_auth/src/hasher/hasher.dart';
 
 abstract class UserModel {
-  String get authIndex;
+  String get authName;
 
   String get authKeyword;
+
+  String get sessionId;
 }
 
 /// Checks password for given username and returns the user if passwords match
 abstract class AuthModelManager {
-  Future<UserModel> fetchModel(String index);
+  Future<UserModel> fetchModelByAuthName(String authName);
+
+  Future<UserModel> fetchModelBySessionId(String sessionId);
 
   Future<UserModel> authenticate(String index, String keyword);
 }
@@ -27,11 +31,11 @@ class WhiteListPasswordChecker implements AuthModelManager {
         hasher = hasher ?? const NoHasher();
 
   Future<UserModel> authenticate(String username, String password) async {
-    if (!models.containsKey(username)) {
+    UserModel model = await fetchModelByAuthName(username);
+
+    if (model == null) {
       return null;
     }
-
-    UserModel model = models[username];
 
     if (!hasher.verify(password, model.authKeyword)) {
       return null;
@@ -40,11 +44,14 @@ class WhiteListPasswordChecker implements AuthModelManager {
     return model;
   }
 
-  Future<UserModel> fetchModel(String index) async {
-    if (!models.containsKey(index)) {
+  Future<UserModel> fetchModelByAuthName(String authName) async => models.values
+      .firstWhere((model) => model.authName == authName, orElse: () => null);
+
+  Future<UserModel> fetchModelBySessionId(String sessionId) async {
+    if (!models.containsKey(sessionId)) {
       return null;
     }
 
-    return models[index];
+    return models[sessionId];
   }
 }

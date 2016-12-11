@@ -13,7 +13,7 @@ class JwtAuthHeaderSessionManager implements SessionManager {
 
   JwtAuthHeaderSessionManager(this.info, this.audience);
 
-  String getValue(String key) => _value[key];
+  String getInValue(String key) => _value[key];
 
   Future<Null> updateSession(Map<String, String> values) async {
     _writeVals.addAll(values);

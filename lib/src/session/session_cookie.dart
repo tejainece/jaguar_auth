@@ -1,34 +1,55 @@
 part of jaguar_auth.session;
 
 class CookieSessionManager implements SessionManager {
-  CookieSessionManager();
+  final String cookieName;
 
-  final Map<String, String> _cookies = {};
+  CookieSessionManager([this.cookieName = 'session']);
 
-  final List<Cookie> _writeVals = [];
+  final Map<String, String> _inValues = {};
 
-  String getValue(String key) => _cookies[key];
+  final Map<String, String> _outValues = {};
+
+  bool _shouldUpdate = false;
+
+  String getInValue(String key) => _inValues[key];
 
   /// Invalidate any existing session and create a new one
   Future<Null> updateSession(Map<String, String> values) async {
-    values.forEach((String key, String val) {
-      _writeVals.add(new Cookie(key, val));
-    });
-  }
-
-  Future<Null> addResponseCookie(Cookie cook) async {
-    _writeVals.add(cook);
+    _shouldUpdate = true;
+    _outValues.addAll(values);
   }
 
   /// Parses session from request
   Future<Null> parseRequest(HttpRequest request) async {
-    request.cookies.forEach((cook) {
-      _cookies[cook.name] = cook.value;
-    });
+    for (Cookie cook in request.cookies) {
+      if (cook.name == cookieName) {
+        dynamic valueMap = _decode(cook.value);
+        if (valueMap is Map<String, String>) {
+          _inValues.addAll(valueMap);
+        }
+        break;
+      }
+    }
   }
 
   Future<Response> updateResponse(HttpRequest request, Response resp) async {
-    resp.cookies.addAll(_writeVals);
+    if (_shouldUpdate) {
+      Cookie cook = new Cookie(cookieName, _encode());
+      resp.cookies.add(cook);
+    }
     return resp;
+  }
+
+  String _encode() {
+    String str = JSON.encode(_outValues);
+    //TODO encrypt
+    return const Base64Codec.urlSafe().encode(str.codeUnits);
+  }
+
+  dynamic _decode(String data) {
+    String str =
+        new String.fromCharCodes(const Base64Codec.urlSafe().decode(data));
+    //TODO decrypt
+    return JSON.decode(str);
   }
 }

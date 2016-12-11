@@ -2,6 +2,7 @@ library jaguar_auth.session;
 
 import 'dart:io';
 import 'dart:async';
+import 'dart:convert';
 import 'package:jaguar/jaguar.dart';
 import 'package:auth_header/auth_header.dart';
 import 'package:jaguar_jwt_auth/jwt_auth.dart';
@@ -11,7 +12,7 @@ part 'session_auth_header.dart';
 part 'session_cookie.dart';
 
 abstract class SessionManager {
-  String getValue(String key);
+  String getInValue(String key);
 
   /// Invalidate any existing session and create a new one
   Future<Null> updateSession(Map<String, String> values);
@@ -23,12 +24,23 @@ abstract class SessionManager {
   Future<Response> updateResponse(HttpRequest request, Response resp);
 }
 
+class WrapSessionInterceptor implements RouteWrapper<SessionInterceptor> {
+  final SessionManager sessionManager;
+
+  final String id;
+
+  final Map<Symbol, MakeParam> makeParams;
+
+  const WrapSessionInterceptor({this.sessionManager, this.id, this.makeParams});
+
+  SessionInterceptor createInterceptor() =>
+      new SessionInterceptor(this.sessionManager);
+}
+
 class SessionInterceptor extends Interceptor {
   final SessionManager sessionManager;
 
-  const SessionInterceptor(
-      {this.sessionManager, String id, Map<Symbol, MakeParam> makeParams})
-      : super(id: id, makeParams: makeParams);
+  SessionInterceptor(this.sessionManager);
 
   Future<SessionManager> pre(HttpRequest req) async {
     await sessionManager.parseRequest(req);
@@ -37,7 +49,6 @@ class SessionInterceptor extends Interceptor {
 
   @InputRouteResponse()
   Future<Response> post(HttpRequest req, Response resp) async {
-    //TODO create session?
     return await sessionManager.updateResponse(req, resp);
   }
 }

@@ -1,17 +1,32 @@
 part of jaguar_auth.authenticators;
 
+class WrapBasicAuth implements RouteWrapper<BasicAuth> {
+  final AuthModelManager modelManager;
+
+  final String id;
+
+  final Map<Symbol, MakeParam> makeParams;
+
+  const WrapBasicAuth({this.modelManager, this.id, this.makeParams});
+
+  BasicAuth createInterceptor() => new BasicAuth(this.modelManager);
+}
+
 class BasicAuth extends Interceptor {
   final AuthModelManager modelManager;
 
+  final String sessionIdKey;
+
+  final bool manageSession;
+
   @Input(SessionInterceptor)
-  const BasicAuth(
-      {this.modelManager, String id, Map<Symbol, MakeParam> makeParams})
-      : super(id: id, makeParams: makeParams);
+  BasicAuth(this.modelManager,
+      {this.sessionIdKey: 'id', this.manageSession: true});
 
   @InputHeader(HttpHeaders.AUTHORIZATION)
   @Input(SessionInterceptor)
   Future<UserModel> pre(String header, SessionManager sessionManager) async {
-    final basic =
+    AuthHeaderItem basic =
         new AuthHeaderItem.fromHeaderBySchema(header, kBasicAuthScheme);
 
     if (basic == null) {
@@ -34,7 +49,9 @@ class BasicAuth extends Interceptor {
       throw new UnAuthorizedError();
     }
 
-    //TODO request session manager to create session?
+    if (manageSession is bool && manageSession) {
+      sessionManager.updateSession({sessionIdKey: subject.sessionId});
+    }
 
     return subject;
   }

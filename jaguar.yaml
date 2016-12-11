@@ -1,3 +1,4 @@
 apis:
-  - example/simple/simple.dart
-  - example/simple/routes/routes.dart
+  - example/auth/basic_auth/server/server.dart
+  - example/auth/user_password_json/server/server.dart
+  - example/auth/user_password/server/server.dart
