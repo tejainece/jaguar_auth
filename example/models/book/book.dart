@@ -12,7 +12,9 @@ class Book {
   String name;
 
   /// Authors of the book
-  List<String> authors;
+  String author;
+
+  Book.make(this.id, this.name, this.author) {}
 
   Book.FromQueryParam(QueryParams params) {
     fromMap({'name': params.name, 'authors': params.authors});
@@ -20,8 +22,9 @@ class Book {
 
   /// Converts to Map
   Map toMap() => {
+        'id': id,
         'name': name,
-        'authors': authors.toList(),
+        'author': author,
       };
 
   // Converts to JSON
@@ -40,16 +43,16 @@ class Book {
 
   /// Builds from Map
   void fromMap(Map map) {
+    if (map['id'] is String) {
+      id = map['id'];
+    }
+
     if (map['name'] is String) {
       name = map['name'];
     }
 
-    if (map['authors'] is List) {
-      List value = map['authors'];
-
-      if (value.every((el) => el is String)) {
-        authors = value;
-      }
+    if (map['author'] is String) {
+      author = map['author'];
     }
   }
 
@@ -70,11 +73,11 @@ class Book {
       //TODO
     }
 
-    if (authors is! List<String>) {
+    if (author is! String) {
       //TODO
     }
 
-    if (!authors.every((el) => el is String)) {
+    if (author.isEmpty) {
       //TODO
     }
   }
