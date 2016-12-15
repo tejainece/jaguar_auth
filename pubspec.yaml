@@ -1,23 +1,20 @@
 name: jaguar_auth
 description: Authentication interceptors and helper functions for Jaguar
-version: 0.0.1
+version: 0.1.1
 authors:
 - Ravi Teja Gudapati <tejainece@gmail.com>
 - Kevin Segaud <segaud.kevin@gmail.com>
 homepage: http://jaguar-dart.github.io
 
 environment:
-  sdk: '>=1.0.0 <2.0.0'
+  sdk: '>=1.8.0 <2.0.0'
 
 dependencies:
   auth_header: '>=0.0.2'
-  jaguar:
-    path: ../jaguar
+  jaguar: ">=0.1.0 <0.2.0"
   matcher: "^0.12.0"
-  jaguar_jwt:
-    path: ../jaguar_jwt
-  jaguar_session:
-    path: ../jaguar_session
+  jaguar_jwt: ">=0.1.0 <0.2.0"
+  jaguar_session: ">=0.1.0 <0.2.0"
 
 dev_dependencies:
   test: '>=0.12.0 <0.13.0'
