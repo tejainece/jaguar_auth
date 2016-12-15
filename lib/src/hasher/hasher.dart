@@ -27,7 +27,7 @@ class MD5Hasher implements Hasher {
   String hash(String password) {
     String saltedPassword = password + salt;
     Crypto.Digest digest = Crypto.md5.convert(saltedPassword.codeUnits);
-    return new String.fromCharCodes(digest.bytes);
+    return digest.toString();
   }
 
   /// Verifies the given password with given hash for the given salt
@@ -45,7 +45,7 @@ class Sha1Hasher implements Hasher {
   String hash(String unhashed) {
     String saltedPassword = unhashed + salt;
     Crypto.Digest digest = Crypto.sha1.convert(saltedPassword.codeUnits);
-    return new String.fromCharCodes(digest.bytes);
+    return digest.toString();
   }
 
   /// Verifies the given password with given hash for the given salt
@@ -64,7 +64,7 @@ class Sha256Hasher implements Hasher {
   String hash(String unhashed) {
     String saltedPassword = unhashed + salt;
     Crypto.Digest digest = Crypto.sha256.convert(saltedPassword.codeUnits);
-    return new String.fromCharCodes(digest.bytes);
+    return digest.toString();
   }
 
   /// Verifies the given password with given hash for the given salt
