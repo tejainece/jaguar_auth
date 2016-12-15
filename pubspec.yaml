@@ -7,7 +7,7 @@ authors:
 homepage: http://jaguar-dart.github.io
 
 environment:
-  sdk: '>=1.0.0 <2.0.0'
+  sdk: '>=1.8.0 <2.0.0'
 
 dependencies:
   auth_header: '>=0.0.2'
